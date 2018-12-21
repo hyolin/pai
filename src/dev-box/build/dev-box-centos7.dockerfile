@@ -15,9 +15,9 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-FROM ubuntu:16.04
+FROM centos:7
 
-RUN yum install \
+RUN yum install -y \
       nano \
       vim \
       joe \
@@ -49,12 +49,13 @@ RUN yum install \
       realpath \
       net-tools && \
     mkdir -p /cluster-configuration &&\
-    git clone https://github.com/Microsoft/pai.git &&\
+    git clone https://github.com/hyolin/pai.git &&\
     pip install python-etcd docker kubernetes GitPython
 
 WORKDIR /tmp
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+#ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
 
 RUN echo "source /usr/share/bash-completion/completions/git" >> ~/.bashrc
 
@@ -73,17 +74,8 @@ RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
 
 RUN sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
 
-RUN yum install azure-cli
+RUN yum install -y azure-cli
 
-RUN cat <<EOF > /etc/yum.repos.d/kubernetes.repo\
-[kubernetes]\
-name=Kubernetes\
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64\
-enabled=1\
-gpgcheck=1\
-repo_gpgcheck=1\
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg\
-EOF
 RUN yum install -y kubectl
 
 # reinstall requests otherwise will get error: `cannot import name DependencyWarning`
@@ -95,8 +87,8 @@ RUN rm -rf /tmp/*
 
 WORKDIR /
 # checkout OpenPAI release branch at start-script
-# COPY build/start-script.sh /usr/local
-# RUN chmod u+x /usr/local/start-script.sh
+COPY build/start-script-centos7.sh /usr/local
+RUN chmod u+x /usr/local/start-script.sh
 
-# CMD ["/usr/local/start-script.sh"]
+CMD ["/usr/local/start-script.sh"]
 
