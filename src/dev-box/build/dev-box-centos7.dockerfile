@@ -79,7 +79,7 @@ RUN sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.micros
 
 RUN yum install -y azure-cli
 
-#RUN sh -c 'echo -e "[kubernetes]\nname=Kubernetes\nbaseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg" > /etc/yum.repos.d/azure-cli.repo'
+RUN sh -c 'echo -e "[kubernetes]\nname=Kubernetes\nbaseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg" > /etc/yum.repos.d/azure-cli.repo'
 
 RUN yum install -y kubectl
 
@@ -91,7 +91,7 @@ RUN echo y | pip uninstall requests && \
 RUN rm -rf /tmp/*
 
 WORKDIR /
-# checkout OpenPAI release branch at start-script
+# checkout OpenPAI release branch at start-scrip
 COPY build/start-script-centos7.sh /usr/local
 RUN chmod u+x /usr/local/start-script.sh
 
