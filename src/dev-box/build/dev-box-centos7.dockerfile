@@ -17,13 +17,10 @@
 
 FROM centos:7
 
-<<<<<<< HEAD
 RUN yum -y install epel-release && yum clean all
 
 RUN yum -y install python-pip && yum clean all
 
-=======
->>>>>>> 756a13f7982b7b29144be511269f9888a436fb97
 RUN yum install -y \
       nano \
       vim \
@@ -77,11 +74,10 @@ RUN tar xzvf alertmanager-0.15.2.linux-amd64.tar.gz
 RUN mv alertmanager-0.15.2.linux-amd64/amtool /usr/local/bin
 
 # install Azure CLI for deploy on  Azure AKS
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc
 
 RUN sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
 
-RUN yum install azure-cli
+RUN yum install -y azure-cli
 
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
@@ -92,7 +88,7 @@ gpgcheck=1
 repo_gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
 EOF
-RUN yum install -y azure-cli
+
 RUN yum install -y kubectl
 
 # reinstall requests otherwise will get error: `cannot import name DependencyWarning`
