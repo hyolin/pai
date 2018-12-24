@@ -17,36 +17,32 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
 
-## OpenPAI deploy 
+## Start OpenPAI service
 
+### command
 
-#### Cluster Bootstrap
+[When Kubernetes is up and running](./how-to-bootup-k8s.md#ref_check), PAI services can then be deployed to it using `paictl` tool:
 
-###### ```distributed```
-- [A Guide For Booting Up The Cluster](doc/distributed-deploy.md)
-###### ```single box```
-- [A Guide For Single Box Bootstrap](doc/single-box.md)
+```bash
+cd pai
 
-#### PAI Machine Maintenance
+# cmd should be executed under /pai directory in the environment.
 
-- Please maintain the PAI cluster from within a dev-box described.
+python paictl.py service start \
+  [ -c ~/.kube/config] \
+  [ -n service-name ]
+```
 
-- [A Guide For PAI Machine Maintenance](../paictl/paictl-manual.md#Machine)
+If the `-n` parameter is specified, only the given service, e.g. `rest-server`, `webportal`, `watchdog`, etc., will be deployed. If not, all PAI services will be deployed. In the latter case, the above command does the following things:
 
-#### Service Maintenance
+- Generate Kubernetes-related configuration files based on `cluster-configuration.yaml`.
 
-- please build and maintain your service in the dev-box.
-- You could skip the build process, and pull service image from our public registry.
+- Use `kubectl` to set up config maps and create pods on Kubernetes.
 
+### How to check
+After this step, the system maintainer can check the status of OpenPAI services by accessing OpenPAI kubernetes web portal:
 
-- [A Guide For Service Maintenance](../paictl/paictl-manual.md#Service)
-
-
-#### Advanced, Add Your Service
-
-- [A Guide For Adding New Service](doc/add-service.md)
-
-
-#### Q&A
-- [Q&A of kubernetes deployment](doc/kubernetes-deploy-qna.md)
+```bash
+http://<master>:9090/#!/pod?namespace=default
+```
 

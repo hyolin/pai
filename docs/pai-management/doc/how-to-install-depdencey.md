@@ -17,36 +17,44 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
 
-## OpenPAI deploy 
+#### Install necessary dependency on your host.
 
+```
+apt-get -y update 
 
-#### Cluster Bootstrap
+apt-get -y install \
+      nano \
+      vim \
+      joe \
+      wget \
+      curl \
+      jq \
+      gawk \
+      psmisc \
+      python \
+      python-yaml \
+      python-jinja2 \
+      python-paramiko \
+      python-urllib3 \
+      python-tz \
+      python-nose \
+      python-prettytable \
+      python-netifaces \
+      python-dev \
+      python-pip \
+      python-mysqldb \
+      openjdk-8-jre \
+      openjdk-8-jdk \
+      openssh-server \
+      openssh-client \
+      git \
+      bash-completion \
+      inotify-tools \
+      rsync \
+      realpath \
+      net-tools
 
-###### ```distributed```
-- [A Guide For Booting Up The Cluster](doc/distributed-deploy.md)
-###### ```single box```
-- [A Guide For Single Box Bootstrap](doc/single-box.md)
+pip install python-etcd docker kubernetes GitPython
 
-#### PAI Machine Maintenance
-
-- Please maintain the PAI cluster from within a dev-box described.
-
-- [A Guide For PAI Machine Maintenance](../paictl/paictl-manual.md#Machine)
-
-#### Service Maintenance
-
-- please build and maintain your service in the dev-box.
-- You could skip the build process, and pull service image from our public registry.
-
-
-- [A Guide For Service Maintenance](../paictl/paictl-manual.md#Service)
-
-
-#### Advanced, Add Your Service
-
-- [A Guide For Adding New Service](doc/add-service.md)
-
-
-#### Q&A
-- [Q&A of kubernetes deployment](doc/kubernetes-deploy-qna.md)
-
+git clone https://github.com/Microsoft/pai.git
+```

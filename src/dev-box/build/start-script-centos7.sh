@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright (c) Microsoft Corporation
 # All rights reserved.
 #
@@ -15,28 +17,12 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-apiVersion: v1
-kind: Pod
-metadata:
-  name: kube-scheduler
-  namespace: kube-system
-spec:
-  hostNetwork: true
-  containers:
-  - image: {{ cluster_cfg['kubernetes']['docker-registry'] }}/kube-scheduler:{{ cluster_cfg['kubernetes']['kube-scheduler-version'] }}
-    name: kube-scheduler
-    command:
-    - /usr/local/bin/kube-scheduler
-    - --master
-    - {{ cluster_cfg['kubernetes']['api-servers-ip'] }}:{{ cluster_cfg['kubernetes']['api-servers-port'] }}
-    - --leader-elect=true
-    livenessProbe:
-      httpGet:
-        path: /healthz
-        port: 10251
-      initialDelaySeconds: 15
-      timeoutSeconds: 1
-    resources:
-      requests:
-        memory: "1Gi"
-        cpu: "1000m"
+pushd $(dirname "$0") > /dev/null
+
+cd  /pai
+ git fetch --tags
+# TAG=$(curl --silent "https://api.github.com/repos/microsoft/pai/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') && git checkout $TAG
+git checkout ai/pai-centos
+/bin/bash
+
+popd > /dev/null

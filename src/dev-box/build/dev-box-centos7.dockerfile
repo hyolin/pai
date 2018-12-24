@@ -17,10 +17,13 @@
 
 FROM centos:7
 
+<<<<<<< HEAD
 RUN yum -y install epel-release && yum clean all
 
 RUN yum -y install python-pip && yum clean all
 
+=======
+>>>>>>> 756a13f7982b7b29144be511269f9888a436fb97
 RUN yum install -y \
       nano \
       vim \
@@ -53,12 +56,13 @@ RUN yum install -y \
       realpath \
       net-tools && \
     mkdir -p /cluster-configuration &&\
-    git clone https://github.com/Microsoft/pai.git &&\
+    git clone https://github.com/hyolin/pai.git &&\
     pip install python-etcd docker kubernetes GitPython
 
 WORKDIR /tmp
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+#ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
 
 RUN echo "source /usr/share/bash-completion/completions/git" >> ~/.bashrc
 
@@ -88,7 +92,7 @@ gpgcheck=1
 repo_gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
 EOF
-
+RUN yum install -y azure-cli
 RUN yum install -y kubectl
 
 # reinstall requests otherwise will get error: `cannot import name DependencyWarning`
@@ -100,7 +104,7 @@ RUN rm -rf /tmp/*
 
 WORKDIR /
 # checkout OpenPAI release branch at start-script
-COPY build/start-script.sh /usr/local
+COPY build/start-script-centos7.sh /usr/local
 RUN chmod u+x /usr/local/start-script.sh
 
 CMD ["/usr/local/start-script.sh"]
