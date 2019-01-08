@@ -34,9 +34,9 @@ def exec_cmd(*args, **kwargs):
 
     if histogram is not None:
         with histogram.time():
-            return subprocess.check_output(*args, **kwargs).decode("utf-8")
+            return subprocess.check_output(*args, **kwargs) #.decode("utf-8")
     else:
-        return subprocess.check_output(*args, **kwargs).decode("utf-8")
+        return subprocess.check_output(*args, **kwargs) #.decode("utf-8")
 
 
 def walk_json_field_safe(obj, *fields):

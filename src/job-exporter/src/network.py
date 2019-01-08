@@ -204,11 +204,13 @@ def get_interfaces():
         struct.pack("iL", bytes, names.buffer_info()[0])
     ))[0]
 
+    import pdb
+    pdb.set_trace()
     namestr = names.tostring()
 
     result = {}
     for i in range(0, outbytes, 40):
-        name = namestr[i:i+16].split(b"\0", 1)[0].decode("ascii")
+        name = namestr[i:i+16].split(b"\0", 1)[0].encode("ascii")#.decode("ascii")
         ip   = namestr[i+20:i+24]
         result[name] = format_ip(ip)
     return result
@@ -250,3 +252,5 @@ def try_to_get_right_interface(configured_ifs):
                 return if_name
 
     return None
+
+print(get_interfaces())

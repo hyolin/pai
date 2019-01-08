@@ -31,7 +31,7 @@ docker-registry:
   # If public, please fill it the same as your username
   namespace: openpai
 
-  # E.g., gcr.io. If public，fill docker_registry_domain with word "public"
+  # E.g., gcr.akscn.io. If public，fill docker_registry_domain with word "public"
   # domain: public
   domain: docker.io
 

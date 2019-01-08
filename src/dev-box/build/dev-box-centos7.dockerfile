@@ -40,7 +40,6 @@ RUN yum install -y \
       python-prettytable \
       python-netifaces \
       python-devel \
-      python-pip \
       python-mysqldb \
       openjdk-8-jre \
       openjdk-8-jdk \
@@ -53,6 +52,7 @@ RUN yum install -y \
       realpath \
       net-tools && \
     mkdir -p /cluster-configuration &&\
+    curl https://bootstrap.pypa.io/get-pip.py|python &&\
     git clone https://github.com/hyolin/pai.git &&\
     pip install python-etcd docker kubernetes GitPython
 
@@ -90,9 +90,13 @@ RUN echo y | pip uninstall requests && \
 
 RUN rm -rf /tmp/*
 
+RUN pwd
 WORKDIR /
+RUN pwd
 # checkout OpenPAI release branch at start-scrip
-COPY build/start-script-centos7.sh /usr/local
+#COPY start-script-centos7.sh /usr/local/
+#COPY build/start-script-centos7.sh /usr/local/
+COPY start-script-centos7.sh /usr/local/start-script.sh
 RUN chmod u+x /usr/local/start-script.sh
 
 CMD ["/usr/local/start-script.sh"]
